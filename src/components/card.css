@@ -1,0 +1,77 @@
+.movie-card {
+  background-color: #1f1f1f;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 320px;
+  box-shadow: 0 8px 20px rgba(1, 84, 193, 0.7);
+  transition: transform 0.3s;
+}
+
+.movie-card:hover {
+  transform: scale(1.05);
+}
+
+.movie-card:hover .movie-info {
+  background-color: #0091ff;
+  
+}
+
+
+.movie-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.movie-info {
+  padding: 15px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.movie-info h2 {
+  margin-top: 0;
+  display: flex;
+  justify-content: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.5em;
+  color: #ffffff;
+}
+
+.author {
+  font-style: italic;
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 0.95em;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.4em;
+  color: white;
+}
+button {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  width: 120px;
+  border: none;
+  background-color: #0961e5;
+  color: white;
+  border-radius: 4px;
+  font-size: large;
+  font-weight: 500;
+  transition: background-color color 0.2s;
+  white-space: nowrap;
+}
+.movie-card:hover button{
+  transform: scale(1.02);
+  background-color: #ffffff;
+  color: #0037ff;
+}
+a{
+  text-decoration: none;
+  color: #000000;
+}
+a :hover{
+  color :#0037ff;
+}
