@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import FullArticle from './fullarticel';
+import FullArticle from './fullarticle';
 import Navbar from './components/navbar';
 import Card from './components/card';
 

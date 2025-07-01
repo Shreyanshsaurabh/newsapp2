@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './fullarticel.css'; 
+import './fullarticle.css'; 
 const FullArticle = ({ article, onClose }) => {
   const [fullContent, setFullContent] = useState('');
   const [isLoading, setIsLoading] = useState(true);

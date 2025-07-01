@@ -7,7 +7,7 @@ import Mysummary from './mysummary';
 import Card from './components/card';
 import Articles from './articles';
 import Searched from './searched';
-import FullArticle from './fullarticel';
+import FullArticle from './fullarticle';
 const Home = () => {
  return(
   

@@ -7,7 +7,7 @@ const path = require('path');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 10000;
 
 // Middleware
 app.use(express.json());
@@ -43,15 +43,18 @@ app.post('/scrape', async (req, res) => {
 
 // --- Serve Vite Frontend (Production Only) ---
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../dist')));
+  const distPath = path.join(__dirname, '..', 'dist');
+  console.log('Serving static from:', distPath);
+
+  app.use(express.static(distPath));
 
   // Catch-all for SPA routes
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../dist/index.html'));
+    res.sendFile(path.join(distPath, 'index.html'));
   });
 }
 
-// --- Start the Server ---
+// --- Start the Server (Only Once!) ---
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
