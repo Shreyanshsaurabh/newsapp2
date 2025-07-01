@@ -36,7 +36,7 @@
 .article-body {
   margin-top: 1rem;
   line-height: 1.6;
-  white-space: pre-wrap; /* This preserves line breaks from the scraped text */
+  white-space: pre-wrap;
 }
 
 .error-message {

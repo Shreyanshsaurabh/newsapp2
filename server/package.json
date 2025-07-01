@@ -2,9 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+ "scripts": {
+    "start": "node server.js",
+    "heroku-postbuild": "cd .. && npm install && npm run build"
+   },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -12,7 +13,9 @@
   "dependencies": {
     "@mozilla/readability": "^0.6.0",
     "axios": "^1.10.0",
+    "cors": "^2.8.5",
     "dotenv": "^17.0.0",
+    "express": "^5.1.0",
     "jsdom": "^26.1.0"
   }
 }

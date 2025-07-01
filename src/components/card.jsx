@@ -10,9 +10,6 @@ function Card({ title, image, description,author,publishedAt,url,onReadMore }) {
         <br></br>
         <p className="author">{author} {publishedAt}</p>
         <p className="description">{description}</p>
-        {/* <button>
-        <a className='readmore' href={url} target="_blank" rel="noopener noreferrer">Read More</a>
-        </button> */}
          <button>
         <a className='readmore' onClick={onReadMore}>Read More</a>
         </button>
