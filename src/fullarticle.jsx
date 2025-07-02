@@ -1,6 +1,8 @@
+// src/FullArticle.jsx
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './fullarticle.css'; 
+import './fullarticle.css';
 
 const FullArticle = ({ article, onClose }) => {
   const [fullContent, setFullContent] = useState('');
@@ -9,15 +11,15 @@ const FullArticle = ({ article, onClose }) => {
 
   useEffect(() => {
     const fetchFullArticle = async () => {
-      if (!article.link) return;  // ✅ use .link instead of .url
+      if (!article.url) return;
 
       setIsLoading(true);
       setError('');
 
       try {
-        const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
+        const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:10000';
         const response = await axios.post(`${backendUrl}/scrape`, {
-          url: article.link, 
+          url: article.url,
         });
 
         if (response.data?.content) {
@@ -34,12 +36,14 @@ const FullArticle = ({ article, onClose }) => {
     };
 
     fetchFullArticle();
-  }, [article.link])
+  }, [article.url]);
 
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <button className="close-button" onClick={onClose}>&times;</button>
+        <button className="close-button" onClick={onClose}>
+          &times;
+        </button>
         <h2>{article.title}</h2>
         {isLoading && <p>Loading full article...</p>}
         {error && <p className="error-message">{error}</p>}
