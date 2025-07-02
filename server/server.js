@@ -1,3 +1,5 @@
+// server/index.js
+
 const express = require('express');
 const axios = require('axios');
 const { JSDOM } = require('jsdom');
@@ -9,15 +11,13 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-// Middleware
+app.use(cors());
 app.use(express.json());
 
-// Enable CORS in development only
-if (process.env.NODE_ENV !== 'production') {
-  app.use(cors());
-}
+app.get('/', (req, res) => {
+  res.send('Backend is running. POST to /scrape with a URL.');
+});
 
-// --- Article Scraping Endpoint ---
 app.post('/scrape', async (req, res) => {
   const { url } = req.body;
 
@@ -26,8 +26,13 @@ app.post('/scrape', async (req, res) => {
   }
 
   try {
-    const articleResponse = await axios.get(url);
-    const dom = new JSDOM(articleResponse.data, { url });
+    const response = await axios.get(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0',
+      },
+    });
+
+    const dom = new JSDOM(response.data, { url });
     const article = new Readability(dom.window.document).parse();
 
     if (article && article.textContent) {
@@ -36,25 +41,20 @@ app.post('/scrape', async (req, res) => {
       res.status(500).json({ error: 'Could not extract article content.' });
     }
   } catch (error) {
-    console.error('Error scraping article:', error.message);
+    console.error('Scraping error:', error.message);
     res.status(500).json({ error: 'Failed to scrape the article.' });
   }
 });
 
-// --- Serve Vite Frontend (Production Only) ---
+// Optional: Serve static frontend in production
 if (process.env.NODE_ENV === 'production') {
   const distPath = path.join(__dirname, '..', 'dist');
-  console.log('Serving static from:', distPath);
-
   app.use(express.static(distPath));
-
-  // Catch-all for SPA routes
   app.get('*', (req, res) => {
     res.sendFile(path.join(distPath, 'index.html'));
   });
 }
 
-// --- Start the Server (Only Once!) ---
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
