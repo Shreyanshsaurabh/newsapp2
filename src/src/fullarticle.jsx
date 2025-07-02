@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './fullarticle.css'; 
-
 const FullArticle = ({ article, onClose }) => {
   const [fullContent, setFullContent] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -9,32 +8,26 @@ const FullArticle = ({ article, onClose }) => {
 
   useEffect(() => {
     const fetchFullArticle = async () => {
-      if (!article.link) return;  // ✅ use .link instead of .url
+      if (!article.url) return;
 
       setIsLoading(true);
       setError('');
 
       try {
-        const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
-        const response = await axios.post(`${backendUrl}/scrape`, {
-          url: article.link, 
+        const response = await axios.post('http://localhost:4000/scrape', {
+          url: article.url,
         });
-
-        if (response.data?.content) {
-          setFullContent(response.data.content);
-        } else {
-          setError('No content returned from server.');
-        }
+        setFullContent(response.data.content);
       } catch (err) {
-        console.error(err);
         setError('Failed to load the full article. Please try again later.');
+        console.error(err);
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchFullArticle();
-  }, [article.link])
+  }, [article.url]);
 
   return (
     <div className="modal-overlay">
@@ -43,9 +36,7 @@ const FullArticle = ({ article, onClose }) => {
         <h2>{article.title}</h2>
         {isLoading && <p>Loading full article...</p>}
         {error && <p className="error-message">{error}</p>}
-        {!isLoading && !error && fullContent && (
-          <div className="article-body">{fullContent}</div>
-        )}
+        {!isLoading && !error && <div className="article-body">{fullContent}</div>}
       </div>
     </div>
   );

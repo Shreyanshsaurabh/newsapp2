@@ -16,31 +16,30 @@ const Articles = () => {
   const { category } = useParams();
 
   useEffect(() => {
-  setIsLoading(true);
-  setError(null);
+    setIsLoading(true); 
+    setError(null);
+    
+    const apiKey = import.meta.env.VITE_NEWS_API_KEY; 
+    const url = `https://newsdata.io/api/1/news?apikey=${apiKey}&country=us&category=${category}&language=en`;
 
-  const apiKey = import.meta.env.VITE_NEWSDATA_API_KEY;
-  const url = `https://newsdata.io/api/1/news?apikey=pub_796eb8db79204974b0c6cf98c67ba30d&country=us&category=${category}&language=en`;
-
-  fetch(url)
-    .then(res => res.json())
-    .then(data => {
-      if (!data.results || data.results.length === 0) {
-        setError("No articles found for this category.");
-        setArticles([]);
-      } else {
-        setArticles(data.results);
-      }
-    })
-    .catch(error => {
-      console.error("Error fetching articles:", error);
-      setError("Failed to fetch articles. Please check your network connection.");
-    })
-    .finally(() => {
-      setIsLoading(false);
-    });
-}, [category]);
-
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        if (!data.results || data.results.length === 0) {
+          setError("No articles found for this category.");
+          setArticles([]);
+        } else {
+          setArticles(data.articles);
+        }
+      })
+      .catch(error => {
+        console.error("Error fetching articles:", error);
+        setError("Failed to fetch articles. Please check your network connection.");
+      })
+      .finally(() => {
+        setIsLoading(false); 
+      });
+  }, [category]);
 
   const handleReadMore = (article) => {
     setSelectedArticle(article);
@@ -60,11 +59,13 @@ const Articles = () => {
       <div className='container'>
         {!isLoading && !error && articles.map((article) => (
           <Card
-            key={article.url} 
+            key={article.link}
             title={article.title}
             description={article.description}
             image={article.image_url}
             url={article.link}
+             publishedAt={article.pubDate}
+             source={article.source_id}
             onReadMore={() => handleReadMore(article)}
           />
         ))}
